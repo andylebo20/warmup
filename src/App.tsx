@@ -1,6 +1,7 @@
 import React, { CSSProperties, useState } from "react";
 import "./App.css";
 import { Person } from "./Person";
+import { ProfileScreen } from "./ProfileScreen";
 
 const people = [
   {
@@ -34,9 +35,28 @@ const people = [
 ];
 
 function App() {
+  const [isProfileScreenOpen, setIsProfileScreenOpen] =
+    useState<boolean>(false);
   const [currentPersonIndex, setCurrentPersonIndex] = useState<number>(0);
-  return (
+  return isProfileScreenOpen ? (
+    <ProfileScreen goBack={() => setIsProfileScreenOpen(false)} />
+  ) : (
     <div style={styles.container}>
+      <button
+        style={{
+          outline: "none",
+          cursor: "pointer",
+          border: "none",
+          backgroundColor: "blue",
+          color: "white",
+          borderRadius: 8,
+          marginBottom: 12,
+          padding: 6,
+        }}
+        onClick={() => setIsProfileScreenOpen(true)}
+      >
+        View my profile
+      </button>
       {currentPersonIndex >= people.length ? (
         <label>No more people to swipe through. Check back later!</label>
       ) : (
