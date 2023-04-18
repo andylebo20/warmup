@@ -2,6 +2,7 @@ import React, { CSSProperties, useState } from "react";
 import "./App.css";
 import { Person } from "./Person";
 import { ProfileScreen } from "./ProfileScreen";
+import Swal from "sweetalert2";
 
 const people = [
   {
@@ -63,7 +64,16 @@ function App() {
         <Person
           imgUrls={people[currentPersonIndex].imgUrls}
           name={people[currentPersonIndex].name}
-          onLike={() => setCurrentPersonIndex(currentPersonIndex + 1)}
+          onLike={() => {
+            if (currentPersonIndex === 1) {
+              Swal.fire({
+                title: "You've Matched!",
+                text: `You just matched with Sophia!`,
+                icon: "success",
+              });
+            }
+            setCurrentPersonIndex(currentPersonIndex + 1);
+          }}
           onNext={() => setCurrentPersonIndex(currentPersonIndex + 1)}
         />
       )}
