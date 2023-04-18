@@ -2,33 +2,34 @@ import React, { CSSProperties, useState } from "react";
 import "./App.css";
 import { Person } from "./Person";
 import { ProfileScreen } from "./ProfileScreen";
+import { EditScreen } from "./EditScreen";
 import Swal from "sweetalert2";
 
 const people = [
   {
     imgUrls: [
-      "https://i.insider.com/5d24eee5a17d6c19ad14874c?width=750&format=jpeg&auto=webp",
-      "https://c4.wallpaperflare.com/wallpaper/335/280/913/portrait-display-earth-space-wallpaper-preview.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Yekaterina_Volkova.jpg/300px-Yekaterina_Volkova.jpg",
+      "https://wsucougars.com/images/2013/7/7/JYJASNBISFTADKY.20130707171911.jpg",
     ],
     name: "Jessica",
   },
   {
     imgUrls: [
-      "https://www.bwillcreative.com/wp-content/uploads/2020/05/portrait-orientation-zion-national-park.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsB1BMDaN4VuigUwJQTixwE0MZW_98v8NKJw&usqp=CAU",
       "https://www.dummies.com/wp-content/uploads/285015.image0.jpg",
     ],
     name: "Sophia",
   },
   {
     imgUrls: [
-      "https://c4.wallpaperflare.com/wallpaper/663/700/853/nature-landscape-portrait-display-hd-wallpaper-preview.jpg",
+      "https://womenchurchsuitsstore.files.wordpress.com/2012/09/8374.jpg?w=584",
       "https://www.bwillcreative.com/wp-content/uploads/2020/05/portrait-orientation-for-landscape-photography.jpg",
     ],
     name: "Kayla",
   },
   {
     imgUrls: [
-      "https://w0.peakpx.com/wallpaper/148/185/HD-wallpaper-nature-landscape-portrait-display-leaves-fallen-leaves-dirt-road-trees-forest-fall.jpg",
+      "https://whitecapsproducts.com/images/product_images/popup_images/rip-curl-dawn-patrol-shorty-neoprenanzug-2mm-back-zip-damen-schwarz-weiss-2.jpg",
       "https://wallpapercave.com/wp/wp4937501.jpg",
     ],
     name: "Allison",
@@ -39,45 +40,50 @@ function App() {
   const [isProfileScreenOpen, setIsProfileScreenOpen] =
     useState<boolean>(false);
   const [currentPersonIndex, setCurrentPersonIndex] = useState<number>(0);
+  const [editScreen, setEditScreen] = useState<boolean>(false);
   return isProfileScreenOpen ? (
-    <ProfileScreen goBack={() => setIsProfileScreenOpen(false)} />
+    <ProfileScreen goBack={() => setIsProfileScreenOpen(false)} goEdit={() => {setEditScreen(true); setIsProfileScreenOpen(false)}}/>
   ) : (
-    <div style={styles.container}>
-      <button
-        style={{
-          outline: "none",
-          cursor: "pointer",
-          border: "none",
-          backgroundColor: "blue",
-          color: "white",
-          borderRadius: 8,
-          marginBottom: 12,
-          padding: 6,
-        }}
-        onClick={() => setIsProfileScreenOpen(true)}
-      >
-        View my profile
-      </button>
-      {currentPersonIndex >= people.length ? (
-        <label>No more people to swipe through. Check back later!</label>
-      ) : (
-        <Person
-          imgUrls={people[currentPersonIndex].imgUrls}
-          name={people[currentPersonIndex].name}
-          onLike={() => {
-            if (currentPersonIndex === 1) {
-              Swal.fire({
-                title: "You've Matched!",
-                text: `You just matched with Sophia!`,
-                icon: "success",
-              });
-            }
-            setCurrentPersonIndex(currentPersonIndex + 1);
-          }}
-          onNext={() => setCurrentPersonIndex(currentPersonIndex + 1)}
-        />
-      )}
-    </div>
+      editScreen ? (
+        <EditScreen goBack={() => setEditScreen(false)} />
+      ):
+    
+        <div style={styles.container}>
+          <button
+            style={{
+              outline: "none",
+              cursor: "pointer",
+              border: "none",
+              backgroundColor: "blue",
+              color: "white",
+              borderRadius: 8,
+              marginBottom: 12,
+              padding: 6,
+            }}
+            onClick={() => setIsProfileScreenOpen(true)}
+          >
+            View my profile
+          </button>
+          {currentPersonIndex >= people.length ? (
+            <label>No more people to swipe through. Check back later!</label>
+          ) : (
+            <Person
+              imgUrls={people[currentPersonIndex].imgUrls}
+              name={people[currentPersonIndex].name}
+              onLike={() => {
+                if (currentPersonIndex === 1) {
+                  Swal.fire({
+                    title: "You've Matched!",
+                    text: `You just matched with Sophia!`,
+                    icon: "success",
+                  });
+                }
+                setCurrentPersonIndex(currentPersonIndex + 1);
+              }}
+              onNext={() => setCurrentPersonIndex(currentPersonIndex + 1)}
+            />
+          )}
+        </div>
   );
 }
 
